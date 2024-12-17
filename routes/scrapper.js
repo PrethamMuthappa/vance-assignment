@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var puppeteerCore = require('puppeteer');
 
+const {seq,user, User}=require('./sqliteDB')
 
 function unixdate(date){
   const data=new Date(date);
@@ -94,6 +95,20 @@ router.get('/', async function(req, res, next) {
     const {base,quote,fromdate,todate}=req.query;
     const data = await scrape(base,quote,fromdate,todate);
     res.json(data);
+
+    for(const row of data) {
+
+
+      await User.create({
+        date: row.date,
+        open: row.open,
+        high: row.high,
+        low: row.low,
+        close: row.close,
+        adj_close: row.adj_close
+      })
+    }
+
   } catch (error) {
     console.error('Route error:', error);
     res.status(500).json({ 

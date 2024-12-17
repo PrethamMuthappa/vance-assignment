@@ -1,9 +1,8 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
-const sqlite = require("node:sqlite");
 
 const sequelize=new Sequelize({
-    dialect:sqlite,
-    storage:'./database.sqlite'
+    dialect:'sqlite',
+    storage:'./database.sqlite',
 });
 
 class User extends Model {}
