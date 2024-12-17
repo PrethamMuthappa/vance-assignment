@@ -1,4 +1,5 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
+const e = require("express");
 
 const sequelize=new Sequelize({
     dialect:'sqlite',
@@ -15,7 +16,16 @@ User.init({
     adj_close:DataTypes.STRING,
 },{sequelize,modelName:'User'});
 
-sequelize.sync();
+
+(async()=>{
+    try {
+       await  sequelize.sync();
+        console.log("Database sync done")
+    }
+    catch (error){
+        console.error("Database sync error"+error)
+    }
+})();
 
 module.exports={User,sequelize};
 
