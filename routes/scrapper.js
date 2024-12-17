@@ -19,8 +19,10 @@ async function scrape(basecurrency='EUR', quotecurrency='USD',fromdate,todate) {
   const frounixdate= fromdate ? unixdate(fromdate) : null;
  const tounixdate=todate ? unixdate(todate) : null;
 
-  let url=`https://finance.yahoo.com/quote/${encodedcurrency}/history?period1=${frounixdate}&period2=${tounixdate}`
-
+  let url=`https://finance.yahoo.com/quote/${encodedcurrency}/history`
+  if(fromdate && todate){
+    url+=`?period1=${frounixdate}&period2=${tounixdate}`
+  }
   try {
     console.log('Launching browser...');
     browser = await puppeteerCore.launch({
