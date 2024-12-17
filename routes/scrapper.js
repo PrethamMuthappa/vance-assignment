@@ -2,8 +2,25 @@ var express = require('express');
 var router = express.Router();
 var puppeteerCore = require('puppeteer');
 
-async function scrape() {
+
+function unixdate(date){
+  const data=new Date(date);
+  if(isNaN(data.getTime())){
+    throw new Error('Invalid date');
+  }
+  return Math.floor(data.getTime()/1000);
+}
+
+async function scrape(basecurrency='EUR', quotecurrency='USD',fromdate,todate) {
   let browser;
+
+  let joincurrecncy=`${basecurrency}${quotecurrency}=x`;
+  let encodedcurrency=encodeURIComponent(joincurrecncy);
+  const frounixdate= fromdate ? unixdate(fromdate) : null;
+ const tounixdate=todate ? unixdate(todate) : null;
+
+  let url=`https://finance.yahoo.com/quote/${encodedcurrency}/history?period1=${frounixdate}&period2=${tounixdate}`
+
   try {
     console.log('Launching browser...');
     browser = await puppeteerCore.launch({
@@ -25,8 +42,8 @@ async function scrape() {
     // Adding user agent (currently testing on chrome as dy default puppeteer uses it)
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36');
 
-    console.log('Navigating to Yahoo Finance');
-    await page.goto("https://finance.yahoo.com/quote/EURUSD%3DX/history", {
+    console.log(`Navigating to Yahoo Finance ${basecurrency} and ${quotecurrency}`);
+    await page.goto(url, {
       waitUntil: "domcontentloaded",
       timeout: 120000
     });
@@ -72,7 +89,8 @@ async function scrape() {
 
 router.get('/', async function(req, res, next) {
   try {
-    const data = await scrape();
+    const {base,quote,fromdate,todate}=req.query;
+    const data = await scrape(base,quote,fromdate,todate);
     res.json(data);
   } catch (error) {
     console.error('Route error:', error);
