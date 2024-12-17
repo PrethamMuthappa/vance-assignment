@@ -96,11 +96,12 @@ router.get('/', async function(req, res, next) {
     const data = await scrape(base,quote,fromdate,todate);
     res.json(data);
 
+    currency=base+quote;
     for(const row of data) {
 
-
       await User.create({
-        date: row.date,
+        currency:currency,
+        date: new Date(row.date),
         open: row.open,
         high: row.high,
         low: row.low,
@@ -117,5 +118,8 @@ router.get('/', async function(req, res, next) {
     });
   }
 });
+
+
+
 
 module.exports = router;

@@ -8,7 +8,8 @@ const sequelize=new Sequelize({
 
 class User extends Model {}
 User.init({
-    date:DataTypes.STRING,
+    currency:DataTypes.STRING,
+    date:DataTypes.DATE,
     open:DataTypes.STRING,
     high:DataTypes.STRING,
     low:DataTypes.STRING,
