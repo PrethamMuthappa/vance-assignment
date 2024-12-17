@@ -6,8 +6,23 @@
 </head>
 
 <body>
-  <h1>Express</h1>
-  <p>Welcome to Express</p>
+  <h1>Vance Assignment</h1>
+  
+  <h2>How to run</h2>
+  <pre><code>npm start</code></pre>
+
+  <h2>To scrape the data</h2>
+  <pre><code>http://localhost:3000/scrapper?base=USD&quote=INR&fromdate=2024-01-01&todate=2024-03-15</code></pre>
+  <p>The base and quote can be any currency of your choice as well as from date and to date</p>
+  <p>When this endpoint is hit, the data is scrapped and saved to sqlite database</p>
+
+  <h2>Task 2: to return the data from the saved database</h2>
+  <pre><code>http://localhost:3000/api/forex-data?from=USD&to=INR&period=1M</code></pre>
+  <p>The from and to is the currecy which you want to check return from your db, the period is the how long back the data you want to extract.</p>
+  <p>This rest api endpoint will check for the data from the existing db</p>
+
+  <h2>Task 3</h2>
+  <p>The cron job will run as per the scheduled timeline.</p>
 </body>
 
 </html>
