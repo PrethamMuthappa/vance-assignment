@@ -1,5 +1,13 @@
+# Dependencies
+/node_modules
+node_modules/
+**/node_modules
 
+# Optional npm cache directory
+.npm
 
-node_modules
+# Optional eslint cache
+.eslintcache
+
 .idea
 bin
